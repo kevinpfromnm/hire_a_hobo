@@ -1,0 +1,71 @@
+require 'rake'
+require 'rake/rdoctask'
+require 'rake/testtask'
+
+require 'active_record'
+ActiveRecord::ActiveRecordError # hack for https://rails.lighthouseapp.com/projects/8994/tickets/2577-when-using-activerecordassociations-outside-of-rails-a-nameerror-is-thrown
+$:.unshift File.join(File.expand_path(File.dirname(__FILE__)), '/lib')
+$:.unshift File.join(File.expand_path(File.dirname(__FILE__)), '/../hobofields/lib')
+$:.unshift File.join(File.expand_path(File.dirname(__FILE__)), '/../hobosupport/lib')
+require 'hobo'
+
+RUBY = File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name']).sub(/.*\s.*/m, '"\&"')
+RUBYDOCTEST = ENV['RUBYDOCTEST'] || "#{RUBY} -S rubydoctest"
+
+desc "Default Task"
+task :default => [ :test ]
+
+
+# --- Testing --- #
+
+desc "Run all unit tests"
+Rake::TestTask.new(:test) { |t|
+  t.libs << "test"
+  t.test_files=Dir.glob( "test/**/*_test.rb" ).sort
+  t.verbose = true
+}
+
+namespace "test" do
+  desc "Run the doctests"
+  task :doctest do |t|
+    files=Dir['doctest/*.rdoctest'].map {|f| File.expand_path(f)}.join(' ')
+    # note, tests in doctest/hobo/ are out of date
+    exit(1) if !system("#{RUBYDOCTEST} #{files}")
+  end
+end
+
+# --- RDoc --- #
+
+desc 'Generate documentation for the Hobo plugin.'
+Rake::RDocTask.new(:rdoc) do |rdoc|
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title    = 'Hobo'
+  rdoc.options << '--line-numbers' << '--inline-source'
+  rdoc.rdoc_files.include('README')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end
+
+
+# --- Packaging and Rubyforge & gemcutter & github--- #
+
+require 'jeweler'
+Jeweler::Tasks.new do |gemspec|
+  gemspec.version      = Hobo::VERSION
+  gemspec.name         = "hobo"
+  gemspec.email        = "tom@tomlocke.com"
+  gemspec.summary      = "The web app builder for Rails"
+  gemspec.homepage     = "http://hobocentral.net/"
+  gemspec.authors      = ["Tom Locke"]
+  gemspec.executables  = ['hobo']
+  gemspec.default_executable = 'hobo'
+  gemspec.rubyforge_project = "hobo"
+  gemspec.add_dependency("rails", [">= 2.2.2"])
+  gemspec.add_dependency("will_paginate", [">= 2.3.11"])
+  gemspec.add_dependency("hobosupport", ["= #{Hobo::VERSION}"])
+  gemspec.add_dependency("hobofields", ["= #{Hobo::VERSION}"])
+  gemspec.files.include %w(tasks/environments.rake tasks/hobo_tasks.rake)
+end
+Jeweler::GemcutterTasks.new
+Jeweler::RubyforgeTasks.new do |rubyforge|
+  rubyforge.doc_task = false
+end
