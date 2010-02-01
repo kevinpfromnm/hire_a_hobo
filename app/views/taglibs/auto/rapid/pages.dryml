@@ -98,7 +98,7 @@
           </header>
 
           <section param="content-body">
-            <field-list fields="amount, time_estimate, notes" param/>
+            <field-list fields="amount, time_estimate, notes, state" param/>
           </section>
     </content:>
 
@@ -204,6 +204,75 @@
 </def>
 
 
+<def tag="place-bid-page" polymorphic/>
+<def tag="place-bid-page" for="Bid">
+  
+  <page title="#{ht 'bids.place_bid.title', :default=>['Place Bid']}" merge>  
+
+    <body: class="lifecycle-start-page place-bid-page" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="bids.place_bid.heading">
+            Place Bid
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <place-bid-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="accept-bid-page" polymorphic/>
+<def tag="accept-bid-page" for="Bid">
+  <page title="#{ht 'bids.accept_bid.title', :default=>['Accept Bid']}" merge>
+
+    <body: class="lifecycle-transition-page accept-bid-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="bids.accept_bid.heading">
+            Accept Bid
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <accept-bid-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="reject-bid-page" polymorphic/>
+<def tag="reject-bid-page" for="Bid">
+  <page title="#{ht 'bids.reject_bid.title', :default=>['Reject Bid']}" merge>
+
+    <body: class="lifecycle-transition-page reject-bid-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="bids.reject_bid.heading">
+            Reject Bid
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <reject-bid-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
 
 
 

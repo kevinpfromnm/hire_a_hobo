@@ -38,8 +38,10 @@ class Bid < ActiveRecord::Base
     amount
   end
 
+  named_scope :other_bids, lambda { |bid_id| { :conditions => ['id != ?',bid_id] } }
+
   lifecycle do
-    state :open, :accepted, :rejected
+    state :open, :accepted, :rejected, :other_bid_accepted, :completed
 
     create :place_bid, 
       :params => [:amount, :time_estimate, :notes, :project_id], 
@@ -48,10 +50,15 @@ class Bid < ActiveRecord::Base
       :user_becomes => :user do
     end
 
-    transition :accept, { :open => :accepted }, 
+    transition :accept_bid, { :open => :accepted }, 
       :available_to => :project_owner do
         project.lifecycle.accept_bid!(acting_user)
-        # remove other bids here?
+        project.bids.other_bids(self.id).update_all 'state = "other_bid_accepted"'
     end
+
+    transition :reject_bid, { :open => :rejected }, 
+      :available_to => :project_owner do
+    end
+
   end
 end
