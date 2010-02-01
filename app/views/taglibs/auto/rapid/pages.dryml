@@ -1,0 +1,578 @@
+<!-- AUTOMATICALLY GENERATED FILE - DO NOT EDIT -->
+
+<!-- ====== Main Navigation ====== -->
+
+<def tag="main-nav">
+  <navigation class="main-nav" merge-attrs param="default">
+    <nav-item href="#{base_url}/">Home</nav-item>
+    <nav-item with="&Project"><ht key="projects.nav_item">Projects</ht></nav-item>
+  </navigation>
+</def>
+
+
+
+
+<!-- ====== Bid Pages ====== -->
+
+<def tag="index-page" for="Bid">
+  <page merge title="#{ht 'bids.index.title', :default=>['Bids'] }">
+    <body: class="index-page bid" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="bids.index.heading">
+            Bids
+          </ht>
+        </h2>
+
+        <p param="count" if>
+          <ht key="bids.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+
+
+        <div param="new-form">
+          <h3 param="new-form-heading">
+            <ht key="bids.form.new.heading">New Bid</ht>
+          </h3>
+          <form with="&@invalid_record || new_for_current_user(Bid)" param/>
+        </div>
+
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="Bid">
+  <page merge title="#{ht 'bids.new.title', :default=>[' New Bid'] }">
+    <body: class="new-page bid" param/>
+
+    <content: param>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="bids.new.heading">
+            New Bid
+          </ht>
+        </h2>
+      </section>
+
+      <section param="content-body">
+        <form param>
+          <submit: label="#{ht 'bids.actions.create', :default=>['Create Bid']}"/>
+        </form>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="Bid">
+  <page merge title="#{ht 'bids.show.title', :default=>['Bid'] }">
+
+    <body: class="show-page bid" param/>
+
+    <content: param>
+          <header param="content-header">
+            <a:project param="parent-link">&laquo; <ht key="bids.actions.back" to="project"><name/></ht></a:project>
+            <h2 param="heading">
+              <ht key="bids.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
+                <name/>
+              </ht>
+            </h2>
+
+            <record-flags fields="" param/>
+
+            <a:user param="creator-link"/>
+          </header>
+
+          <section param="content-body">
+            <field-list fields="amount, time_estimate, notes" param/>
+          </section>
+    </content:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="Bid">
+  <page merge title="#{ht 'bids.edit.title', :default=>['Edit Bid'] }">
+
+    <body: class="edit-page bid" param/>
+
+    <content:>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="bids.edit.heading" name="&this.respond_to?(:name) ? this.name : ''">
+            Edit <type-name/>
+          </ht>
+        </h2>
+        <delete-button label="#{ht 'bids.actions.delete', :default=>['Remove This Bid']}" param/>
+      </section>
+
+      <section param="content-body">
+        <form param/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="index-for-project-page" polymorphic/>
+<def tag="index-for-project-page" for="Bid">
+  <page merge title="#{ht 'bids.index_for_owner.title', :default=>['Bids for']} #{name :with => @project, :no_wrapper => true}">    
+    <body: class="index-for-owner-page project bid" param/>
+    <content: param>
+      <header param="content-header">
+        <div param="back-to">
+          <ht key="hobo.actions.back">Back to</ht> <a with="&@project"/>
+        </div>
+        <h2 param="heading">
+          <ht key="bids.index_for_owner.heading.other">
+            Bids
+          </ht>
+        </h2>
+        <h3 param="subheading">
+          <ht key="bids.index_for_owner.subheading">
+            For:
+          </ht>
+          <a with="&@project"/>
+        </h3>
+        <p param="count" if>
+          <ht key="bids.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+        <a action="new" to="&model" param="new-link">
+          <ht key="bids.actions.new" >New Bid</ht>
+        </a>
+
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="new-for-project-page" polymorphic/>
+<def tag="new-for-project-page" for="Bid">
+  <page merge title="#{ht 'bids.new_for_owner.title', :default=>['New Bid for']} #{name :with => @project}">
+    <body: class="new-for-owner-page  bid" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="bids.new_for_owner.heading">
+            New Bid
+          </ht>
+        </h2>
+        <h3 param="subheading">
+          <ht key="bids.new_for_owner.subheading">
+            For:
+          </ht>
+          <a with="&@project"/>
+        </h3>
+      </header>
+
+      <section param="content-body">
+        <form owner="project" method="post" param>
+          <field-list: skip="project"/>
+          <submit: label="#{ht 'bids.actions.create', :default=>['Create Bid']}"/>
+        </form>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+
+
+
+<!-- ====== Project Pages ====== -->
+
+<def tag="index-page" for="Project">
+  <page merge title="#{ht 'projects.index.title', :default=>['Projects'] }">
+    <body: class="index-page project" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="projects.index.heading">
+            Projects
+          </ht>
+        </h2>
+
+        <p param="count" if>
+          <ht key="projects.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+        <a action="new" to="&model" param="new-link">
+          <ht key="projects.actions.new">New Project</ht>
+        </a>
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+
+
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="Project">
+  <page merge title="#{ht 'projects.new.title', :default=>[' New Project'] }">
+    <body: class="new-page project" param/>
+
+    <content: param>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="projects.new.heading">
+            New Project
+          </ht>
+        </h2>
+      </section>
+
+      <section param="content-body">
+        <form param>
+          <submit: label="#{ht 'projects.actions.create', :default=>['Create Project']}"/>
+        </form>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="Project">
+  <page merge title="#{ht 'projects.show.title', :default=>['Project'] }">
+
+    <body: class="show-page project" param/>
+
+    <content: param>
+          <header param="content-header">
+            <h2 param="heading">
+              <ht key="projects.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
+                <name/>
+              </ht>
+            </h2>
+
+            <record-flags fields="" param/>
+
+            <a:user param="creator-link"/>
+
+            <a action="edit" if="&can_edit?" param="edit-link">
+              <ht key="projects.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+                Edit Project
+              </ht>
+            </a>
+          </header>
+
+          <section param="content-body">
+            <view:description param="description"/>
+            <field-list fields="budget, due, state" param/>
+            <section param="collection-section">
+              <h3 param="collection-heading">
+                <ht key="projects.collection.heading.other" >
+                  Bids
+                </ht>
+              </h3>
+
+              <collection:bids param/>
+
+              <a:bids action="new" if="&can_create?(@project.bids)" param="new-link">
+                <ht key="bids.actions.new">
+                  New Bid
+                </ht>
+              </a:bids>
+            </section>
+          </section>
+    </content:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="Project">
+  <page merge title="#{ht 'projects.edit.title', :default=>['Edit Project'] }">
+
+    <body: class="edit-page project" param/>
+
+    <content:>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="projects.edit.heading" name="&this.respond_to?(:name) ? this.name : ''">
+            Edit <type-name/>
+          </ht>
+        </h2>
+        <delete-button label="#{ht 'projects.actions.delete', :default=>['Remove This Project']}" param/>
+      </section>
+
+      <section param="content-body">
+        <form param/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+
+<def tag="add-project-page" polymorphic/>
+<def tag="add-project-page" for="Project">
+  
+  <page title="#{ht 'projects.add_project.title', :default=>['Add Project']}" merge>  
+
+    <body: class="lifecycle-start-page add-project-page" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="projects.add_project.heading">
+            Add Project
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <add-project-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="accept-bid-page" polymorphic/>
+<def tag="accept-bid-page" for="Project">
+  <page title="#{ht 'projects.accept_bid.title', :default=>['Accept Bid']}" merge>
+
+    <body: class="lifecycle-transition-page accept-bid-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="projects.accept_bid.heading">
+            Accept Bid
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <accept-bid-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="completed-page" polymorphic/>
+<def tag="completed-page" for="Project">
+  <page title="#{ht 'projects.completed.title', :default=>['Completed']}" merge>
+
+    <body: class="lifecycle-transition-page completed-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="projects.completed.heading">
+            Completed
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <completed-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+
+
+<!-- ====== User Pages ====== -->
+
+<def tag="index-page" for="User">
+  <page merge title="#{ht 'users.index.title', :default=>['Users'] }">
+    <body: class="index-page user" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="users.index.heading">
+            Users
+          </ht>
+        </h2>
+
+        <p param="count" if>
+          <ht key="users.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+
+
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="User">
+  <page merge title="#{ht 'users.new.title', :default=>[' New User'] }">
+    <body: class="new-page user" param/>
+
+    <content: param>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="users.new.heading">
+            New User
+          </ht>
+        </h2>
+      </section>
+
+      <section param="content-body">
+        <form param>
+          <submit: label="#{ht 'users.actions.create', :default=>['Create User']}"/>
+        </form>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="User">
+  <page merge title="#{ht 'users.show.title', :default=>['User'] }">
+
+    <body: class="show-page user" param/>
+
+    <content: param>
+          <header param="content-header">
+            <h2 param="heading">
+              <ht key="users.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
+                <name/>
+              </ht>
+            </h2>
+
+            <record-flags fields="administrator" param/>
+
+            <a action="edit" if="&can_edit?" param="edit-link">
+              <ht key="users.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+                Edit User
+              </ht>
+            </a>
+          </header>
+
+          <section param="content-body">
+            <field-list fields="email_address, state" param/>
+          </section>
+    </content:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="User">
+  <page merge title="#{ht 'users.edit.title', :default=>['Edit User'] }">
+
+    <body: class="edit-page user" param/>
+
+    <content:>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="users.edit.heading" name="&this.respond_to?(:name) ? this.name : ''">
+            Edit <type-name/>
+          </ht>
+        </h2>
+        <delete-button label="#{ht 'users.actions.delete', :default=>['Remove This User']}" param/>
+      </section>
+
+      <section param="content-body">
+        <form param/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+
+<def tag="signup-page" polymorphic/>
+<def tag="signup-page" for="User">
+  
+  <page title="#{ht 'users.signup.title', :default=>['Signup']}" merge>  
+
+    <body: class="lifecycle-start-page signup-page" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="users.signup.heading">
+            Signup
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <signup-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="reset-password-page" polymorphic/>
+<def tag="reset-password-page" for="User">
+  <page title="#{ht 'users.reset_password.title', :default=>['Reset Password']}" merge>
+
+    <body: class="lifecycle-transition-page reset-password-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="users.reset_password.heading">
+            Reset Password
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <reset-password-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+

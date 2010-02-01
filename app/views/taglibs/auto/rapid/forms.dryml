@@ -1,0 +1,91 @@
+<!-- AUTOMATICALLY GENERATED FILE - DO NOT EDIT -->
+
+<def tag="form" for="Bid">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="amount, time_estimate, notes, project, user" param/>
+    <div param="actions">
+      <submit label="#{ht 'bids.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Project">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, budget, description, due, state, bids, user" param/>
+    <div param="actions">
+      <submit label="#{ht 'projects.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="add-project-form" polymorphic/>
+<def tag="add-project-form" for="Project">
+  <form lifecycle="add_project" merge param="default">
+    <error-messages param/>
+    <field-list fields="name, budget, description, due" param/>
+    <div param="actions">
+      <submit label="#{ht 'projects.actions.add_project', :default=>['Add Project']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="accept-bid-form" polymorphic/>
+<def tag="accept-bid-form" for="Project">
+  <form lifecycle="accept_bid" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'projects.actions.accept_bid', :default=>['Accept Bid']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="completed-form" polymorphic/>
+<def tag="completed-form" for="Project">
+  <form lifecycle="completed" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'projects.actions.completed', :default=>['Completed']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="form" for="User">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, email_address, administrator, state" param/>
+    <div param="actions">
+      <submit label="#{ht 'users.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="signup-form" polymorphic/>
+<def tag="signup-form" for="User">
+  <form lifecycle="signup" merge param="default">
+    <error-messages param/>
+    <field-list fields="name, email_address, password, password_confirmation" param/>
+    <div param="actions">
+      <submit label="#{ht 'users.actions.signup', :default=>['Signup']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="reset-password-form" polymorphic/>
+<def tag="reset-password-form" for="User">
+  <form lifecycle="reset_password" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="password, password_confirmation" param/>
+    <div param="actions">
+      <submit label="#{ht 'users.actions.reset_password', :default=>['Reset Password']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
