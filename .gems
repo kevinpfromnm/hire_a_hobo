@@ -1,0 +1,2 @@
+bluecloth	-v '>= 2.0.0'
+mislav-will_paginate -s http://gems.github.com
