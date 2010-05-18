@@ -36,7 +36,10 @@ class User < ActiveRecord::Base
                :params => [ :password, :password_confirmation ]
 
   end
-  
+ 
+  def submit_permitted?
+    signed_up?
+  end 
 
   # --- Permissions --- #
 
