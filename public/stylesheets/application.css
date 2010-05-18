@@ -1,8 +1,13 @@
-.page-header, html {
-  background: #7faac8;
+.page-header, html, .page-footer {
+  background: #d4d77b;
 }
 
-.app-name {
+.page-footer a {
+  background: none repeat scroll 0 0 transparent;
+  border: none;
+}
+
+.page-header .app-name {
   margin: 0;
   padding: 0;
   height: 130px;

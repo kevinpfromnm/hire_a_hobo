@@ -11,7 +11,12 @@
 <extend tag="page">
 	<old-page merge>
 		<app-name: >
-			<a href="/"><img src="/images/hire-a-hobo-logo.png" /></a>
+			<a href="/"><image src="hire-a-hobo-logo.png" /></a>
 		</app-name:>
+		<footer:>
+			<a href="http://hobocentral.net">
+				<image src="powered-by-hobo-logo-tall.png" />
+			</a>
+		</footer:>
 	</old-page>
 </extend>
