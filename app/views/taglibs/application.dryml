@@ -7,3 +7,11 @@
 <set-theme name="clean"/>
 
 <def tag="app-name">Hire A Hobo</def>
+
+<extend tag="page">
+	<old-page merge>
+		<app-name: >
+			<a href="/"><img src="/images/hire-a-hobo-logo.png" /></a>
+		</app-name:>
+	</old-page>
+</extend>

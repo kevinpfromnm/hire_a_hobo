@@ -1,0 +1,9 @@
+.page-header, html {
+  background: #7faac8;
+}
+
+.app-name {
+  margin: 0;
+  padding: 0;
+  height: 130px;
+}
