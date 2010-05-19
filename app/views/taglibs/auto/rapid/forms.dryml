@@ -59,7 +59,7 @@
 <def tag="form" for="Project">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, budget, description, due, state, user, winning_bid" param/>
+    <field-list fields="name, budget, description, due, state, user" param/>
     <div param="actions">
       <submit label="#{ht 'projects.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>

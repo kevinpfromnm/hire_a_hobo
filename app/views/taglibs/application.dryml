@@ -23,6 +23,9 @@
 
 <extend tag="card" for="Project">
 	<old-card merge>
+		<append-header:>
+			<delete-button />
+		</append-header:>
 		<append-body:>
 			<field-list fields="status" />
 		</append-body:>

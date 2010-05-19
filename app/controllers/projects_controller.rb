@@ -2,7 +2,7 @@ class ProjectsController < ApplicationController
 
   hobo_model_controller
 
-  auto_actions :all
+  auto_actions :all, :except => [:edit, :update ]
 
   def index
     hobo_index :scope => :open_projects

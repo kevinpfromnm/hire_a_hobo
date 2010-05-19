@@ -373,17 +373,11 @@
             <record-flags fields="" param/>
 
             <a:user param="creator-link"/>
-
-            <a action="edit" if="&can_edit?" param="edit-link">
-              <ht key="projects.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
-                Edit Project
-              </ht>
-            </a>
           </header>
 
           <section param="content-body">
             <view:description param="description"/>
-            <field-list fields="budget, due, state, winning_bid" param/>
+            <field-list fields="budget, due, state" param/>
             <section param="collection-section">
               <h3 param="collection-heading">
                 <ht key="projects.collection.heading.other" >

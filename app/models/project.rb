@@ -10,6 +10,7 @@ class Project < ActiveRecord::Base
     timestamps
   end
 
+  never_show :winning_bid
   include OwnedModel
 
   has_many :bids
@@ -36,6 +37,11 @@ class Project < ActiveRecord::Base
 
   def employer
     user
+  end
+
+  def destroy_permitted?
+    return false unless user_is? acting_user
+    open_for_bids?
   end
 
   def view_permitted?(attribute)
