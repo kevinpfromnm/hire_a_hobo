@@ -3,10 +3,10 @@ class Project < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
   fields do
-    name        :string, :required
-    budget      :string, :required
-    description :text, :required
-    due         :datetime
+    name          :string, :required
+    budget        :string, :required
+    description   :text, :required
+    due           :datetime
     timestamps
   end
 
@@ -14,38 +14,56 @@ class Project < ActiveRecord::Base
 
   has_many :bids
   has_many :bidders, :through => :bids, :class_name => "User"
+  belongs_to :winning_bid, :class_name => "Bid"
+
+  named_scope :open_projects, { :conditions => { :state => "open" } }
 
   def already_bidded?(bidder)
     bidders.include? bidder
+  end
+
+  def open_for_bids?
+    state == "open"
+  end
+
+  def status
+    state.humanize
+  end
+
+  def employee
+    winning_bid.bidder
+  end
+
+  def employer
+    user
+  end
+
+  def view_permitted?(attribute)
+    return true if user_is? acting_user
+    return true if open_for_bids?
+    return true if new_record?
+    winning_bid.blank? or acting_user == employee
   end
 
   lifecycle do
     state :open, :default => true
     state :in_progress, :completed_awaiting_payment, :closed
 
-    create :add_project, :available_to => "User",
-      :params => [:name, :budget, :description, :due ],
-      :become => :open do
-        # send confirmation
-    end
-
     transition :accept_bid, { :open => :in_progress },
-      :available_to => :user do
+      :params => [ :winning_bid ] do
+        # TODO: send notice to bidder
     end
 
-    # :open => :in_progress, probably should happen via accepting a bid
-
-    transition :completed, 
-      { :in_progress => :completed_awaiting_payment }, 
-      :available_to => :user do
-        # send notice to bidder
+    transition :project_completed, 
+      { :in_progress => :completed_awaiting_payment } do
+        # TODO: send notice to bidder
     end
 
-    # transition :acknowledge_payment, 
-    #   {:completed_awaiting_payment => :closed }, 
-    #   :available_to => employee do
-    #     # send confirmation to employer
-    # end
+    transition :acknowledge_payment, 
+       {:completed_awaiting_payment => :closed }, 
+       :available_to => :employee do
+         # TODO: send confirmation to employer
+    end
 
   end
 

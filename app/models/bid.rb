@@ -6,6 +6,8 @@ class Bid < ActiveRecord::Base
     amount        :string, :required
     time_estimate :string
     notes         :text
+    comments      :text
+    rating        :integer
     timestamps
   end
 
@@ -15,9 +17,12 @@ class Bid < ActiveRecord::Base
 
   def create_permitted?
     #return true if acting_user.administrator?
+    return false unless project
     return false if acting_user == project_owner
     return false if project.already_bidded?(acting_user)
+    return false unless project.open_for_bids?
     true #bidder == acting_user
+    comments == nil and rating == nil and (new_record? or bidder == acting_user)
   end
 
   def update_permitted?
@@ -33,7 +38,7 @@ class Bid < ActiveRecord::Base
   end
 
   def project_owner
-    project.user
+    project.try.user
   end
 
   def name
@@ -43,24 +48,32 @@ class Bid < ActiveRecord::Base
   named_scope :other_bids, lambda { |bid_id| { :conditions => ['id != ?',bid_id] } }
 
   lifecycle do
-    state :open, :accepted, :rejected, :other_bid_accepted, :completed
-
-    create :place_bid, 
-      :params => [:amount, :time_estimate, :notes, :project_id], 
-      :become => :open,
-      :available_to => "User",
-      :user_becomes => :user do
-    end
+    state :open, :default => true
+    state :accepted, :rejected, :other_bid_accepted, :completed, :unsatisfactory
 
     transition :accept_bid, { :open => :accepted }, 
       :available_to => :project_owner do
-        project.lifecycle.accept_bid!(acting_user)
+        project.lifecycle.accept_bid!(self)
         project.bids.other_bids(self.id).update_all 'state = "other_bid_accepted"'
+        # TODO: notify winning bidder
     end
 
-    transition :reject_bid, { :open => :rejected }, 
+    transition :reject_bid, { :open => :rejected }, :params => [ :comments ],
       :available_to => :project_owner do
     end
 
+    transition :project_completed_satisfactorily, { :accepted => :completed }, 
+      :params => [ :comments, :rating ],
+      :available_to => :project_owner do
+        project.lifecycle.project_completed!(acting_user)
+        # TODO: notify bidder
+    end
+
+    transition :project_completed_unsatisfactorily, { :accepted => :unsatisfactory }, 
+      :params => [ :comments, :rating ],
+      :available_to => :project_owner do
+        project.lifecycle.completed!(acting_user)
+        # TODO: notify bidder
+    end
   end
 end

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100519185152) do
+ActiveRecord::Schema.define(:version => 20100519223330) do
 
   create_table "bids", :force => true do |t|
     t.string   "amount"
@@ -19,8 +19,10 @@ ActiveRecord::Schema.define(:version => 20100519185152) do
     t.datetime "updated_at"
     t.integer  "project_id"
     t.integer  "bidder_id"
-    t.string   "state"
+    t.string   "state",         :default => "open"
     t.datetime "key_timestamp"
+    t.text     "comments"
+    t.integer  "rating"
   end
 
   add_index "bids", ["bidder_id"], :name => "index_bids_on_bidder_id"
@@ -35,12 +37,14 @@ ActiveRecord::Schema.define(:version => 20100519185152) do
     t.integer  "user_id"
     t.text     "description"
     t.datetime "due"
-    t.string   "state",         :default => "open"
+    t.string   "state",          :default => "open"
     t.datetime "key_timestamp"
+    t.integer  "winning_bid_id"
   end
 
   add_index "projects", ["state"], :name => "index_projects_on_state"
   add_index "projects", ["user_id"], :name => "index_projects_on_user_id"
+  add_index "projects", ["winning_bid_id"], :name => "index_projects_on_winning_bid_id"
 
   create_table "users", :force => true do |t|
     t.string   "crypted_password",          :limit => 40

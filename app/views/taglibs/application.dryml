@@ -20,3 +20,20 @@
 		</footer:>
 	</old-page>
 </extend>
+
+<extend tag="card" for="Project">
+	<old-card merge>
+		<append-body:>
+			<field-list fields="status" />
+		</append-body:>
+	</old-card>
+</extend>
+
+<extend tag="card" for="Bid">
+	<old-card merge>
+		<append-body:>
+			<field-list fields="state" />
+			<transition-buttons />
+		</append-body:>
+	</old-card>
+</extend>

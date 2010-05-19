@@ -34,6 +34,9 @@
       </header>
 
       <section param="content-body">
+        <a action="new" to="&model" param="new-link">
+          <ht key="bids.actions.new">New Bid</ht>
+        </a>
 
         <page-nav param="top-page-nav"/>
 
@@ -41,13 +44,6 @@
 
         <page-nav param="bottom-page-nav"/>
 
-
-        <div param="new-form">
-          <h3 param="new-form-heading">
-            <ht key="bids.form.new.heading">New Bid</ht>
-          </h3>
-          <form with="&@invalid_record || new_for_current_user(Bid)" param/>
-        </div>
 
       </section>
     </content:>
@@ -98,7 +94,7 @@
           </header>
 
           <section param="content-body">
-            <field-list fields="amount, time_estimate, notes, state" param/>
+            <field-list fields="amount, time_estimate, notes, comments, rating, state" param/>
           </section>
     </content:>
 
@@ -204,29 +200,6 @@
 </def>
 
 
-<def tag="place-bid-page" polymorphic/>
-<def tag="place-bid-page" for="Bid">
-  
-  <page title="#{ht 'bids.place_bid.title', :default=>['Place Bid']}" merge>  
-
-    <body: class="lifecycle-start-page place-bid-page" param/>
-
-    <content: param>
-      <header param="content-header">
-        <h2 param="heading">
-          <ht key="bids.place_bid.heading">
-            Place Bid
-          </ht>
-        </h2>
-      </header>
-
-      <section param="content-body">
-        <place-bid-form param="form"/>
-      </section>
-    </content:>
-
-  </page>
-</def>
 
 <def tag="accept-bid-page" polymorphic/>
 <def tag="accept-bid-page" for="Bid">
@@ -268,6 +241,52 @@
 
       <section param="content-body">
         <reject-bid-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="project-completed-satisfactorily-page" polymorphic/>
+<def tag="project-completed-satisfactorily-page" for="Bid">
+  <page title="#{ht 'bids.project_completed_satisfactorily.title', :default=>['Project Completed Satisfactorily']}" merge>
+
+    <body: class="lifecycle-transition-page project-completed-satisfactorily-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="bids.project_completed_satisfactorily.heading">
+            Project Completed Satisfactorily
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <project-completed-satisfactorily-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="project-completed-unsatisfactorily-page" polymorphic/>
+<def tag="project-completed-unsatisfactorily-page" for="Bid">
+  <page title="#{ht 'bids.project_completed_unsatisfactorily.title', :default=>['Project Completed Unsatisfactorily']}" merge>
+
+    <body: class="lifecycle-transition-page project-completed-unsatisfactorily-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="bids.project_completed_unsatisfactorily.heading">
+            Project Completed Unsatisfactorily
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <project-completed-unsatisfactorily-form param="form"/>
       </section>
     </content:>
 
@@ -364,7 +383,7 @@
 
           <section param="content-body">
             <view:description param="description"/>
-            <field-list fields="budget, due, state" param/>
+            <field-list fields="budget, due, state, winning_bid" param/>
             <section param="collection-section">
               <h3 param="collection-heading">
                 <ht key="projects.collection.heading.other" >
@@ -411,70 +430,24 @@
 </def>
 
 
-<def tag="add-project-page" polymorphic/>
-<def tag="add-project-page" for="Project">
-  
-  <page title="#{ht 'projects.add_project.title', :default=>['Add Project']}" merge>  
 
-    <body: class="lifecycle-start-page add-project-page" param/>
+<def tag="acknowledge-payment-page" polymorphic/>
+<def tag="acknowledge-payment-page" for="Project">
+  <page title="#{ht 'projects.acknowledge_payment.title', :default=>['Acknowledge Payment']}" merge>
 
-    <content: param>
-      <header param="content-header">
-        <h2 param="heading">
-          <ht key="projects.add_project.heading">
-            Add Project
-          </ht>
-        </h2>
-      </header>
-
-      <section param="content-body">
-        <add-project-form param="form"/>
-      </section>
-    </content:>
-
-  </page>
-</def>
-
-<def tag="accept-bid-page" polymorphic/>
-<def tag="accept-bid-page" for="Project">
-  <page title="#{ht 'projects.accept_bid.title', :default=>['Accept Bid']}" merge>
-
-    <body: class="lifecycle-transition-page accept-bid-page" param/>
+    <body: class="lifecycle-transition-page acknowledge-payment-page" param/>
 
     <content:>
       <header param="content-header">
         <h2 param="heading">
-          <ht key="projects.accept_bid.heading">
-            Accept Bid
+          <ht key="projects.acknowledge_payment.heading">
+            Acknowledge Payment
           </ht>
         </h2>
       </header>
 
       <section param="content-body">
-        <accept-bid-form param="form"/>
-      </section>
-    </content:>
-
-  </page>
-</def>
-
-<def tag="completed-page" polymorphic/>
-<def tag="completed-page" for="Project">
-  <page title="#{ht 'projects.completed.title', :default=>['Completed']}" merge>
-
-    <body: class="lifecycle-transition-page completed-page" param/>
-
-    <content:>
-      <header param="content-header">
-        <h2 param="heading">
-          <ht key="projects.completed.heading">
-            Completed
-          </ht>
-        </h2>
-      </header>
-
-      <section param="content-body">
-        <completed-form param="form"/>
+        <acknowledge-payment-form param="form"/>
       </section>
     </content:>
 
