@@ -1,6 +1,6 @@
 <index-page>
 	<count:>
-		There <count prefix="are" label="open project#{s if this.count > 1}" />.<br />
+		There <count prefix="are" label="open project" />.<br />
 		<a with="&Project" action="all">See all projects.</a>
 	</count:>
 </index-page>
