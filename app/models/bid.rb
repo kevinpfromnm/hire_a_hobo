@@ -3,7 +3,7 @@ class Bid < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
   fields do
-    amount        :string
+    amount        :string, :required
     time_estimate :string
     notes         :text
     timestamps
@@ -11,13 +11,13 @@ class Bid < ActiveRecord::Base
 
   belongs_to :project
 
-  belongs_to :user, :creator => true
+  belongs_to :bidder, :creator => true, :class_name => "User"
 
   def create_permitted?
     #return true if acting_user.administrator?
-    acting_user.signed_up? and user_is? acting_user
-    #and acting_user.submit_permitted?  
-    true
+    return false if acting_user == project_owner
+    return false if project.already_bidded?(acting_user)
+    true #bidder == acting_user
   end
 
   def update_permitted?
@@ -29,7 +29,7 @@ class Bid < ActiveRecord::Base
   end
 
   def view_permitted?(attribute)
-    user_is? acting_user or project_owner == acting_user
+    new_record? or bidder_is? acting_user or project_owner == acting_user
   end
 
   def project_owner

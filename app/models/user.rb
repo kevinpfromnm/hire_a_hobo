@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   end
 
   has_many :projects
-  has_many :bids
+  has_many :bids, :foreign_key => "bidder_id"
   has_many :bidded_projects, :through => :bids, :class_name => "Project"
 
   # This gives admin rights to the first sign-up.

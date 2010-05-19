@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100201224727) do
+ActiveRecord::Schema.define(:version => 20100519185152) do
 
   create_table "bids", :force => true do |t|
     t.string   "amount"
@@ -18,14 +18,14 @@ ActiveRecord::Schema.define(:version => 20100201224727) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "project_id"
-    t.integer  "user_id"
+    t.integer  "bidder_id"
     t.string   "state"
     t.datetime "key_timestamp"
   end
 
+  add_index "bids", ["bidder_id"], :name => "index_bids_on_bidder_id"
   add_index "bids", ["project_id"], :name => "index_bids_on_project_id"
   add_index "bids", ["state"], :name => "index_bids_on_state"
-  add_index "bids", ["user_id"], :name => "index_bids_on_user_id"
 
   create_table "projects", :force => true do |t|
     t.string   "name"

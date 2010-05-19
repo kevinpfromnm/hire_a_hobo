@@ -94,7 +94,7 @@
 
             <record-flags fields="" param/>
 
-            <a:user param="creator-link"/>
+            <a:bidder param="creator-link"/>
           </header>
 
           <section param="content-body">

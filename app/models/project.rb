@@ -12,8 +12,12 @@ class Project < ActiveRecord::Base
 
   include OwnedModel
 
-  has_many :bids, :accessible => true
+  has_many :bids
   has_many :bidders, :through => :bids, :class_name => "User"
+
+  def already_bidded?(bidder)
+    bidders.include? bidder
+  end
 
   lifecycle do
     state :open, :default => true
