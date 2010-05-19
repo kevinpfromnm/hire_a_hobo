@@ -14,8 +14,10 @@ class Bid < ActiveRecord::Base
   belongs_to :user, :creator => true
 
   def create_permitted?
-    return true if acting_user.administrator?
-    acting_user.signed_up? and user_is? acting_user and acting_user.submit_permitted?  
+    #return true if acting_user.administrator?
+    acting_user.signed_up? and user_is? acting_user
+    #and acting_user.submit_permitted?  
+    true
   end
 
   def update_permitted?
