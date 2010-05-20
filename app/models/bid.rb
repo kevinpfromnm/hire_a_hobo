@@ -20,7 +20,7 @@ class Bid < ActiveRecord::Base
   }
 
   named_scope :open_bids, { 
-    :conditions => ['state LIKE "open" and state LIKE "accepted"']
+    :conditions => ['bids.state LIKE "open" and bids.state LIKE "accepted"']
   }
 
   named_scope :almost_finished_projects, {
