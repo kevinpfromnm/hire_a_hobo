@@ -15,6 +15,19 @@ class Bid < ActiveRecord::Base
 
   belongs_to :bidder, :creator => true, :class_name => "User"
 
+  named_scope :other_bids, lambda { |bid_id| 
+    { :conditions => ['id != ?',bid_id] } 
+  }
+
+  named_scope :open_bids, { 
+    :conditions => ['state LIKE "open" and state LIKE "accepted"']
+  }
+
+  named_scope :almost_finished_projects, {
+    :include => :project,
+    :conditions => ['projects.state LIKE "completed_awaiting_payment"']
+  }
+
   def create_permitted?
     #return true if acting_user.administrator?
     return false unless project
@@ -45,7 +58,6 @@ class Bid < ActiveRecord::Base
     amount
   end
 
-  named_scope :other_bids, lambda { |bid_id| { :conditions => ['id != ?',bid_id] } }
 
   lifecycle do
     state :open, :default => true

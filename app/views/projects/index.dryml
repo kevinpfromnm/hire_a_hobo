@@ -3,4 +3,17 @@
 		There <count prefix="are" label="open project" />.<br />
 		<a with="&Project" action="all">See all projects.</a>
 	</count:>
+	<collection: replace>
+		<table-plus without-search-form fields="this,user,status,bids.count,due,created_at">
+			<Project-heading:>Project</Project-heading:>
+			<user-heading:>Submitted by</user-heading:>
+			<status-heading:>Status </status-heading:>
+			<bids-count-heading:># of bids</bids-count-heading:>
+			<due-heading:>Due by</due-heading:>
+			<created-at-heading:>Posted on</created-at-heading:>
+			<controls:>
+				<delete-button />
+			</controls:>
+		</table-plus>
+	</collection:>
 </index-page>

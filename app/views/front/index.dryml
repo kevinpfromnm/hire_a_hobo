@@ -5,24 +5,21 @@
   <content:>
     <header class="content-header">
       <h1>Welcome to <app-name/></h1>
-      <section class="welcome-message">
-        <h3>Congratulations! Your Hobo Rails App is up and running</h3>
-        <ul>
-          <li>To customise this page: edit app/views/front/index.dryml</li>
-        </ul>
-    
-        <% if User.count == 0 -%>
-          <h3 style="margin-top: 20px;">There are no user accounts - please provide the details of the site administrator</h3>
-          <do with="&User.new"><% this.exempt_from_edit_checks = true %>
-            <signup-form/>
-          </do>
-        <% end -%>
-        
-      
-      </section>
     </header>
 
-    <section class="content-body">
+		<section class="content-body">
+			<section if="&current_user.signed_up?">
+				<h3>Your Projects</h3>
+				<table-plus with="&current_user.projects" fields="this,budget,due,status,bidders.count,bids" without-search-form />
+				<h3>Your Bids</h3>
+				<table-plus with="&current_user.bids.open_bids" fields="*" without-search-form />
+				<h3>Get Paid</h3>
+				<table-plus with="&current_user.bids.almost_finished_projects" field="*" without-search-form>
+				</table-plus>
+				<else>
+					Complete projects to get paid.
+				</else>
+			</section>
     </section>
   </content:>
   
