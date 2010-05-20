@@ -20,12 +20,12 @@ class Bid < ActiveRecord::Base
   }
 
   named_scope :open_bids, { 
-    :conditions => ['bids.state LIKE "open" and bids.state LIKE "accepted"']
+    :conditions => ["bids.state LIKE 'open' and bids.state LIKE 'accepted'"]
   }
 
   named_scope :almost_finished_projects, {
     :include => :project,
-    :conditions => ['projects.state LIKE "completed_awaiting_payment"']
+    :conditions => ["projects.state LIKE 'completed_awaiting_payment'"]
   }
 
   def create_permitted?
@@ -66,7 +66,7 @@ class Bid < ActiveRecord::Base
     transition :accept_bid, { :open => :accepted }, 
       :available_to => :project_owner do
         project.lifecycle.accept_bid!(self)
-        project.bids.other_bids(self.id).update_all 'state = "other_bid_accepted"'
+        project.bids.other_bids(self.id).update_all "state = 'other_bid_accepted'"
         # TODO: notify winning bidder
     end
 
