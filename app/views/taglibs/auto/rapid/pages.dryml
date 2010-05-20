@@ -247,6 +247,29 @@
   </page>
 </def>
 
+<def tag="resubmit-bid-page" polymorphic/>
+<def tag="resubmit-bid-page" for="Bid">
+  <page title="#{ht 'bids.resubmit_bid.title', :default=>['Resubmit Bid']}" merge>
+
+    <body: class="lifecycle-transition-page resubmit-bid-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="bids.resubmit_bid.heading">
+            Resubmit Bid
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <resubmit-bid-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
 <def tag="project-completed-satisfactorily-page" polymorphic/>
 <def tag="project-completed-satisfactorily-page" for="Bid">
   <page title="#{ht 'bids.project_completed_satisfactorily.title', :default=>['Project Completed Satisfactorily']}" merge>

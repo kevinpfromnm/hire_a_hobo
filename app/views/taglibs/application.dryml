@@ -34,8 +34,14 @@
 
 <extend tag="card" for="Bid">
 	<old-card merge>
+		<creator-link: replace>
+			<section:bidder class="bidder-info">
+				<h4>Submitter: <a><You /></a></h4>
+				<field-list fields="satisfaction_ratio,current_commitments" />
+			</section>
+		</creator-link:>
 		<append-body:>
-			<field-list fields="state" />
+			<field-list fields="status, notes, comments, rating" />
 			<transition-buttons />
 		</append-body:>
 	</old-card>

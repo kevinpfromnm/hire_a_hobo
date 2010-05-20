@@ -16,3 +16,15 @@ body {
   padding: 0;
   height: 150px;
 }
+
+.bidder-info {
+  border: 1px solid gray;
+  margin: 5px;
+  padding: 0 5px;
+}
+
+.bidder-info h4 {
+  margin-top: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px dotted gray;
+}

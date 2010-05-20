@@ -13,11 +13,21 @@ class User < ActiveRecord::Base
   has_many :bids, :foreign_key => "bidder_id"
   has_many :bidded_projects, :through => :bids, :class_name => "Project"
 
-  # This gives admin rights to the first sign-up.
-  # Just remove it if you don't want that
-  before_create { |user| user.administrator = true if !Rails.env.test? && count == 0 }
-
   
+  def satisfaction_ratio
+    satisfied = bids.completed_bids.count
+    unsatisfied = bids.unsatisfactory_bids.count
+    
+    ratio = satisfied / (satisfied + unsatisfied) unless satisfied + unsatisfied == 0
+    ratio ||= "No projects finished to completion (not counting active)"
+    ratio
+  end
+
+  def current_commitments
+    count = bids.active_bids.count
+    count = "No active unfinished projects" if count == 0
+    count
+  end
   # --- Signup lifecycle --- #
 
   lifecycle do

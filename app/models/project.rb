@@ -20,7 +20,7 @@ class Project < ActiveRecord::Base
   named_scope :open_projects, { :conditions => { :state => "open" } }
 
   def already_bidded?(bidder)
-    bidders.include? bidder
+    bidders.include? bidder or user_is? bidder
   end
 
   def open_for_bids?

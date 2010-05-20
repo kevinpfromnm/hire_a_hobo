@@ -33,6 +33,17 @@
     </div>
   </form>
 </def>
+<def tag="resubmit-bid-form" polymorphic/>
+<def tag="resubmit-bid-form" for="Bid">
+  <form lifecycle="resubmit_bid" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="amount, time_estimate, notes" param/>
+    <div param="actions">
+      <submit label="#{ht 'bids.actions.resubmit_bid', :default=>['Resubmit Bid']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
 <def tag="project-completed-satisfactorily-form" polymorphic/>
 <def tag="project-completed-satisfactorily-form" for="Bid">
   <form lifecycle="project_completed_satisfactorily" merge param="default">

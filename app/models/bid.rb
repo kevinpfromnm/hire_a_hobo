@@ -14,6 +14,7 @@ class Bid < ActiveRecord::Base
   belongs_to :project
 
   belongs_to :bidder, :creator => true, :class_name => "User"
+  attr_protected :bidder
 
   named_scope :other_bids, lambda { |bid_id| 
     { :conditions => ['id != ?',bid_id] } 
@@ -23,19 +24,27 @@ class Bid < ActiveRecord::Base
     :conditions => ["bids.state LIKE 'open' and bids.state LIKE 'accepted'"]
   }
 
+  named_scope :completed_bids, {  
+    :conditions => "bids.state LIKE 'completed'"  }
+  named_scope :unsatisfactory_bids, {  
+    :conditions => "bids.state LIKE 'unsatisfactory'"  }
+  named_scope :active_bids, {  
+    :conditions => "bids.state LIKE 'accepted'" }
+
   named_scope :almost_finished_projects, {
     :include => :project,
     :conditions => ["projects.state LIKE 'completed_awaiting_payment'"]
   }
 
   def create_permitted?
-    #return true if acting_user.administrator?
+    # No bids on nil projects, when bidder is not same as acting_user,
+    # when bidder is project owner or has already bid, or when project is
+    # closed
     return false unless project
-    return false if acting_user == project_owner
+    #return false unless bidder_is? acting_user
     return false if project.already_bidded?(acting_user)
     return false unless project.open_for_bids?
-    true #bidder == acting_user
-    comments == nil and rating == nil and (new_record? or bidder == acting_user)
+    comments == nil and rating == nil # and bidder == acting_user
   end
 
   def update_permitted?
@@ -47,15 +56,24 @@ class Bid < ActiveRecord::Base
   end
 
   def view_permitted?(attribute)
-    new_record? or bidder_is? acting_user or project_owner == acting_user
+    return false if attribute == :rating and rating.blank?
+    new_record? or bidder_is? acting_user or project_owner_is? acting_user
   end
 
   def project_owner
     project.try.user
   end
 
+  def project_owner_is?(user)
+    project.user_id == user.id
+  end
+
+  def status
+    state
+  end
+
   def name
-    amount
+    "#{bidder.to_s}'s bid: #{amount}"
   end
 
 
@@ -73,6 +91,14 @@ class Bid < ActiveRecord::Base
     transition :reject_bid, { :open => :rejected }, :params => [ :comments ],
       :available_to => :project_owner do
     end
+
+    transition :resubmit_bid, { :rejected => :open }, 
+      :available_to => :bidder, 
+      :params => [ :amount, :time_estimate, :notes ] do
+        comments = nil
+        save
+    end
+
 
     transition :project_completed_satisfactorily, { :accepted => :completed }, 
       :params => [ :comments, :rating ],
