@@ -10,40 +10,48 @@
 			</p>
 			<section class="explanation">
 				<h1>Employers</h1>
-				<section class="two-col">
-					<h3><a with="&Job">Job Postings</a></h3>
+				<section-group>
+					<section class="two-col">
+						<h3><a with="&Job">Job Postings</a></h3>
+						<p>
+							Job postings are intended for full and part time positions.  If you want a worker for multiple projects over an extended period of time, this is the place.
+						</p>
+					</section>
+					<section class="two-col">
+						<h3><a with="&Project">Projects</a></h3>
+						<p>
+							Project postings are intended for one time jobs.  If you want someone to build a site or piece of functionality and be done, this is the place.
+						</p>	
+					</section>
+				</section-group>
+				<h1>Employees</h1>
+				<section>
 					<p>
-						Job postings are intended for full and part time positions.  If you want a worker for multiple projects over an extended period of time, this is the place.
+						Build your resume and reputation with projects.  Employers and employees both can rate each other on how well they performed at their respective tasks (employees: work, reliability, speed, etc., employers: direction, reasonable expectations, payment, etc.).
+					</p>
+					<p>
+						If you're looking for full time work, check the job postings and email a resume off to promising job offers.
 					</p>
 				</section>
-				<section class="two-col">
-					<h3><a with="&Project">Projects</a></h3>
-					<p>
-						Project postings are intended for one time jobs.  If you want someone to build a site or piece of functionality and be done, this is the place.
-					</p>	
-				</section>
-				<h1 style="clear: left">Employees</h1>
-				<p>
-					Build your resume and reputation with projects.  Employers and employees both can rate each other on how well they performed at their respective tasks (employees: work, reliability, speed, etc., employers: direction, reasonable expectations, payment, etc.).
-				</p>
-				<p>
-					If you're looking for full time work, check the job postings and email a resume off to promising job offers.
-				</p>
 			</section>
     </header>
 
 		<section class="content-body">
 			<section if="&current_user.signed_up?">
-				<h3>Your Projects</h3>
-				<table-plus with="&current_user.projects" fields="this,budget,due,status,bidders.count,bids" without-search-form />
-				<h3>Your Bids</h3>
-				<table-plus with="&current_user.bids.open_bids" fields="*" without-search-form />
-				<h3>Get Paid</h3>
-				<table-plus with="&current_user.bids.almost_finished_projects" field="*" without-search-form>
-				</table-plus>
-				<else>
-					Complete projects to get paid.
-				</else>
+				<section>
+					<h3>Your Projects</h3>
+					<table-plus with="&current_user.projects" fields="this,budget,due,status,bidders.count,bids" without-search-form />
+				</section>
+				<section>
+					<h3>Your Bids</h3>
+					<table-plus with="&current_user.bids.open_bids" fields="*" without-search-form />
+					<h3>Get Paid</h3>
+					<table-plus with="&current_user.bids.almost_finished_projects" field="*" without-search-form>
+					</table-plus>
+					<else>
+						Complete projects to get paid.
+					</else>
+				</section>
 			</section>
     </section>
   </content:>
