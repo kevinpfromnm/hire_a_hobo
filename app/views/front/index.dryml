@@ -4,7 +4,32 @@
 
   <content:>
     <header class="content-header">
-      <h1>Welcome to <app-name/></h1>
+			<h1>Welcome to <app-name/></h1>
+			<p>
+				Welcome to your one stop shop for hobo programmers.
+			</p>
+			<section class="explanation">
+				<h1>Employers</h1>
+				<section class="two-col">
+					<h3><a with="&Job">Job Postings</a></h3>
+					<p>
+						Job postings are intended for full and part time positions.  If you want a worker for multiple projects over an extended period of time, this is the place.
+					</p>
+				</section>
+				<section class="two-col">
+					<h3><a with="&Project">Projects</a></h3>
+					<p>
+						Project postings are intended for one time jobs.  If you want someone to build a site or piece of functionality and be done, this is the place.
+					</p>	
+				</section>
+				<h1 style="clear: left">Employees</h1>
+				<p>
+					Build your resume and reputation with projects.  Employers and employees both can rate each other on how well they performed at their respective tasks (employees: work, reliability, speed, etc., employers: direction, reasonable expectations, payment, etc.).
+				</p>
+				<p>
+					If you're looking for full time work, check the job postings and email a resume off to promising job offers.
+				</p>
+			</section>
     </header>
 
 		<section class="content-body">
