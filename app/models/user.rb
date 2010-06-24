@@ -32,11 +32,18 @@ class User < ActiveRecord::Base
 
   lifecycle do
 
-    state :active, :default => true
+    state :unverified, :default => true
+    state :active
 
     create :signup, :available_to => "Guest",
            :params => [:name, :email_address, :password, :password_confirmation],
-           :become => :active
+           :become => :unverified, :new_key => true do
+      UserMailer.deliver_email_verification(self, lifecycle.key)
+    end
+
+    transition :verify_email_address, { :unverified => :active }, :available_to => :key_holder do
+      UserMailer.deliver_email(self,"Email address verified","Your email address has been verified.")
+    end
              
     transition :request_password_reset, { :active => :active }, :new_key => true do
       UserMailer.deliver_forgot_password(self, lifecycle.key)
@@ -45,11 +52,21 @@ class User < ActiveRecord::Base
     transition :reset_password, { :active => :active }, :available_to => :key_holder,
                :params => [ :password, :password_confirmation ]
 
+    transition :change_email, { :active => :unverified }, 
+                :available_to => :user_account,
+                :params => [ :email_address ], :new_key => true do
+      UserMailer.deliver_email_verification(self, lifecycle.key)
+    end
+
   end
  
   def submit_permitted?
     signed_up?
   end 
+
+  def user_account
+    self
+  end
 
   # --- Permissions --- #
 
@@ -59,7 +76,7 @@ class User < ActiveRecord::Base
 
   def update_permitted?
     acting_user.administrator? || 
-      (acting_user == self && only_changed?(:email_address, :crypted_password,
+      (acting_user == self && only_changed?(:crypted_password,
                                             :current_password, :password, :password_confirmation))
     # Note: crypted_password has attr_protected so although it is permitted to change, it cannot be changed
     # directly from a form submission.
@@ -70,6 +87,8 @@ class User < ActiveRecord::Base
   end
 
   def view_permitted?(field)
+    return true if acting_user == self
+    return false if field == :email_address
     true
   end
 

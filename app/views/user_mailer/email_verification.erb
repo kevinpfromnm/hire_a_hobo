@@ -1,0 +1,9 @@
+<%= @user %>,
+
+Please click the link below or copy and paste it into a browser to verify your email address.
+
+  <%= user_verify_email_address_url :host => @host, :id => @user, :key => @key %>
+
+Thank you,
+
+The <%= @app_name %> team.

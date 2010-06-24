@@ -611,6 +611,29 @@
   </page>
 </def>
 
+<def tag="verify-email-address-page" polymorphic/>
+<def tag="verify-email-address-page" for="User">
+  <page title="#{ht 'users.verify_email_address.title', :default=>['Verify Email Address']}" merge>
+
+    <body: class="lifecycle-transition-page verify-email-address-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="users.verify_email_address.heading">
+            Verify Email Address
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <verify-email-address-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
 <def tag="reset-password-page" polymorphic/>
 <def tag="reset-password-page" for="User">
   <page title="#{ht 'users.reset_password.title', :default=>['Reset Password']}" merge>
@@ -628,6 +651,29 @@
 
       <section param="content-body">
         <reset-password-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="change-email-page" polymorphic/>
+<def tag="change-email-page" for="User">
+  <page title="#{ht 'users.change_email.title', :default=>['Change Email']}" merge>
+
+    <body: class="lifecycle-transition-page change-email-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="users.change_email.heading">
+            Change Email
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <change-email-form param="form"/>
       </section>
     </content:>
 

@@ -111,6 +111,17 @@
   </form>
 </def>
 
+<def tag="verify-email-address-form" polymorphic/>
+<def tag="verify-email-address-form" for="User">
+  <form lifecycle="verify_email_address" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'users.actions.verify_email_address', :default=>['Verify Email Address']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
 <def tag="reset-password-form" polymorphic/>
 <def tag="reset-password-form" for="User">
   <form lifecycle="reset_password" merge param="default">
@@ -119,6 +130,17 @@
     <field-list fields="password, password_confirmation" param/>
     <div param="actions">
       <submit label="#{ht 'users.actions.reset_password', :default=>['Reset Password']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="change-email-form" polymorphic/>
+<def tag="change-email-form" for="User">
+  <form lifecycle="change_email" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="email_address" param/>
+    <div param="actions">
+      <submit label="#{ht 'users.actions.change_email', :default=>['Change Email']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>
