@@ -5,6 +5,7 @@
 <def tag="main-nav">
   <navigation class="main-nav" merge-attrs param="default">
     <nav-item href="#{base_url}/">Home</nav-item>
+    <nav-item with="&Job"><ht key="jobs.nav_item">Job Postings</ht></nav-item>
     <nav-item with="&Project"><ht key="projects.nav_item">Projects</ht></nav-item>
   </navigation>
 </def>
@@ -315,6 +316,129 @@
 
   </page>
 </def>
+
+
+
+<!-- ====== Job Pages ====== -->
+
+<def tag="index-page" for="Job">
+  <page merge title="#{ht 'jobs.index.title', :default=>['Job Postings'] }">
+    <body: class="index-page job" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="jobs.index.heading">
+            Job Postings
+          </ht>
+        </h2>
+
+        <p param="count" if>
+          <ht key="jobs.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+        <a action="new" to="&model" param="new-link">
+          <ht key="jobs.actions.new">New Job Posting</ht>
+        </a>
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+
+
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="Job">
+  <page merge title="#{ht 'jobs.new.title', :default=>[' New Job Posting'] }">
+    <body: class="new-page job" param/>
+
+    <content: param>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="jobs.new.heading">
+            New Job Posting
+          </ht>
+        </h2>
+      </section>
+
+      <section param="content-body">
+        <form param>
+          <submit: label="#{ht 'jobs.actions.create', :default=>['Create Job Posting']}"/>
+        </form>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="Job">
+  <page merge title="#{ht 'jobs.show.title', :default=>['Job Posting'] }">
+
+    <body: class="show-page job" param/>
+
+    <content: param>
+          <header param="content-header">
+            <h2 param="heading">
+              <ht key="jobs.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
+                <name/>
+              </ht>
+            </h2>
+
+            <record-flags fields="" param/>
+
+            <a:user param="creator-link"/>
+
+            <a action="edit" if="&can_edit?" param="edit-link">
+              <ht key="jobs.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+                Edit Job Posting
+              </ht>
+            </a>
+          </header>
+
+          <section param="content-body">
+            <view:description param="description"/>
+            <field-list fields="location, pay, hours, duration, email_address" param/>
+          </section>
+    </content:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="Job">
+  <page merge title="#{ht 'jobs.edit.title', :default=>['Edit Job Posting'] }">
+
+    <body: class="edit-page job" param/>
+
+    <content:>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="jobs.edit.heading" name="&this.respond_to?(:name) ? this.name : ''">
+            Edit <type-name/>
+          </ht>
+        </h2>
+        <delete-button label="#{ht 'jobs.actions.delete', :default=>['Remove This Job Posting']}" param/>
+      </section>
+
+      <section param="content-body">
+        <form param/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+
 
 
 

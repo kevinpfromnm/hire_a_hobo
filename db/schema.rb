@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100519223330) do
+ActiveRecord::Schema.define(:version => 20100624224751) do
 
   create_table "bids", :force => true do |t|
     t.string   "amount"
@@ -28,6 +28,21 @@ ActiveRecord::Schema.define(:version => 20100519223330) do
   add_index "bids", ["bidder_id"], :name => "index_bids_on_bidder_id"
   add_index "bids", ["project_id"], :name => "index_bids_on_project_id"
   add_index "bids", ["state"], :name => "index_bids_on_state"
+
+  create_table "jobs", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "location"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.string   "pay"
+    t.string   "hours"
+    t.string   "duration"
+    t.string   "email_address"
+  end
+
+  add_index "jobs", ["user_id"], :name => "index_jobs_on_user_id"
 
   create_table "projects", :force => true do |t|
     t.string   "name"
@@ -56,7 +71,7 @@ ActiveRecord::Schema.define(:version => 20100519223330) do
     t.boolean  "administrator",                           :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "state",                                   :default => "active"
+    t.string   "state",                                   :default => "unverified"
     t.datetime "key_timestamp"
   end
 

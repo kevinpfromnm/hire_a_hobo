@@ -67,6 +67,18 @@
   </form>
 </def>
 
+<def tag="form" for="Job">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, description, location, pay, hours, duration, email_address, user" param/>
+    <div param="actions">
+      <submit label="#{ht 'jobs.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
 <def tag="form" for="Project">
   <form merge param="default">
     <error-messages param/>
