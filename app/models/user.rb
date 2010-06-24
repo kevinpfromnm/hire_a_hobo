@@ -87,7 +87,7 @@ class User < ActiveRecord::Base
   end
 
   def view_permitted?(field)
-    return true if acting_user == self
+    return true if acting_user == self or new_record?
     return false if field == :email_address
     true
   end
