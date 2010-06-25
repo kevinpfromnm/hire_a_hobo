@@ -46,3 +46,11 @@
 		</append-body:>
 	</old-card>
 </extend>
+
+<extend tag="card" for="Job">
+	<old-card merge>
+		<creator-link: replace>
+			<view:location />
+		</creator-link:>
+	</old-card>
+</extend>
