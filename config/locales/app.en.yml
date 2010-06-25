@@ -1,0 +1,6 @@
+
+en:
+  users:
+    messages:
+      signup:
+        success: Thank you for signing up!  You should receive an email confirmation shortly.
