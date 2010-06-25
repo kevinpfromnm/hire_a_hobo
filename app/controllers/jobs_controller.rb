@@ -4,4 +4,6 @@ class JobsController < ApplicationController
 
   auto_actions :all
 
+  index_action :rss
+
 end

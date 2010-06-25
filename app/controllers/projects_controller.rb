@@ -10,4 +10,6 @@ class ProjectsController < ApplicationController
 
   index_action :all
 
+  index_action :rss
+
 end

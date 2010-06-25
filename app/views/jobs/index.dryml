@@ -1,0 +1,5 @@
+<index-page>
+	<after-scripts:>
+		<link rel="alternate" type="application/rss+xml" title="Jobs RSS" href="&object_url(Job,:action => :rss)" />
+	</after-scripts:>
+</index-page>
