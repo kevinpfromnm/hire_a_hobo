@@ -1,6 +1,6 @@
 <index-page>
 	<after-scripts:>
-		<link rel="alternate" type="application/rss+xml" title="Projects RSS" href="&object_url(Project,:action => :rss)" />
+		<link rel="alternate" type="application/rss+xml" title="Projects RSS" href="/projects/rss" />
 	</after-scripts:>
 	<count:>
 		There <count prefix="are" label="open project" />.<br />

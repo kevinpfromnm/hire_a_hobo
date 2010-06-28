@@ -3,7 +3,7 @@ OwnedModel = classy_module do
   belongs_to :user, :creator => true
   
   def create_permitted?
-    user_is? acting_user  
+    user_is? acting_user
   end
   
   def update_permitted?

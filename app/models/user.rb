@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
  
   def submit_permitted?
     signed_up?
-  end 
+  end
 
   def user_account
     self
